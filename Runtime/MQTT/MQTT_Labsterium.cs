@@ -6,11 +6,9 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Labsterium;
-using Unity.VisualScripting;
 using UnityEngine;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
-
 namespace Labsterium
 {
     public enum DebugLevel
@@ -63,7 +61,7 @@ namespace Labsterium
         MQTTMessage message;
         protected void Awake()
         {
-            debug = FindObjectOfType<Canvas>().AddComponent<TMPro.TextMeshProUGUI>();
+            debug = FindObjectOfType<Canvas>().gameObject.AddComponent<TMPro.TextMeshProUGUI>();
             debug.color = Color.red;
             instance = this;
             basemecaName = mecaName;

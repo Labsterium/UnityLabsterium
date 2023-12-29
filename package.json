@@ -11,5 +11,8 @@
   "author": {
     "name": "Labsterium",
     "url": "https://www.labsterium.com/"
+  },
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.0"
   }
 }

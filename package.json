@@ -1,0 +1,15 @@
+{
+  "name": "com.labsterium.basemqtt",
+  "version": "1.0.0",
+  "displayName": "Labsterium Base Package",
+  "description": "This package lets you add the base Labsterium core.",
+  "unity": "2018.3",
+  "keywords": [
+    "labsterium",
+    "mqtt"
+  ],
+  "author": {
+    "name": "Labsterium",
+    "url": "https://www.labsterium.com/"
+  }
+}

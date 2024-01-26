@@ -47,7 +47,7 @@ namespace Labsterium
         public string ipAddr = "192.168.2.2";
         public int port = MqttSettings.MQTT_BROKER_DEFAULT_PORT;
         public List<string> topicsSub = new() { "DEVICES" };
-        string basemecaName;
+        protected string basemecaName;
         public string mecaName = "UNITYMECA";
         public bool multiMeca;
         public bool alsoListenBaseName;
@@ -67,7 +67,7 @@ namespace Labsterium
             basemecaName = mecaName;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 #if !UNITY_EDITOR
-        Cursor.visible = false;
+            Cursor.visible = false;
 #endif
             Application.runInBackground = true;
             if (multiMeca)

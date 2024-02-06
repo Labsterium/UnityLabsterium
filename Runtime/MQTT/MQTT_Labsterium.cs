@@ -127,7 +127,7 @@ namespace Labsterium
             Debug("Try connect");
             try
             {
-                client.Connect(mQTTInfo.clientid, null, null, false, MqttMsgConnect.QOS_LEVEL_AT_MOST_ONCE, true, "DISCONNECT", mecaName, true, 10);
+                client.Connect(mqttInfo.clientid, null, null, false, MqttMsgConnect.QOS_LEVEL_AT_MOST_ONCE, true, "DISCONNECT", mecaName, true, 10);
             }
             catch (Exception e)
             {
@@ -237,7 +237,7 @@ namespace Labsterium
                         MecaInfo mi = new()
                         {
                             Network = ni,
-                            MQTT = mQTTInfo
+                            MQTT = mqttInfo
                         };
                         Publish("IDENTIFICATION", JsonUtility.ToJson(mi).ToString());
                     }

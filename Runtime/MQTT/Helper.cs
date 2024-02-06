@@ -80,18 +80,18 @@ try
         string resultDeb = await Helper.Command("/sbin/iw", "wlp2s0 link");
         int first = resultDeb.IndexOf("signal:") + "signal: ".Length;
         int last = resultDeb.IndexOf(" ", first);
-        ni.rssi = int.Parse(resultDeb[first..last]);
+        ni.RSSI = int.Parse(resultDeb[first..last]);
         resultDeb = await Helper.Command("/sbin/iw", "wlp2s0 info");
         first = resultDeb.IndexOf("channel") + "channel ".Length;
         last = resultDeb.IndexOf(" ", first);
-        ni.channel = int.Parse(resultDeb[first..last]);
+        ni.Channel = int.Parse(resultDeb[first..last]);
         first = resultDeb.IndexOf("ssid") + "ssid ".Length;
         last = resultDeb.IndexOf("\n", first);
-        ni.ssid = resultDeb[first..last];
+        ni.SSID = resultDeb[first..last];
         resultDeb = await Helper.Command("/bin/ip", "addr show wlp2s0");
         first = resultDeb.IndexOf("inet ") + "inet ".Length;
         last = resultDeb.IndexOf("/", first);
-        ni.ip = resultDeb[first..last];
+        ni.IP = resultDeb[first..last];
         return ni;
     
 }

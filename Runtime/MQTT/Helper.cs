@@ -33,6 +33,41 @@ namespace Labsterium
     }
     public class Helper
     {
+
+
+        async Task<string> Command(string fn, string args)
+        {
+            return await Task<string>.Run(() =>
+            {
+                try
+                {
+                    var process = new System.Diagnostics.Process
+                    {
+                        StartInfo =
+                                {
+                            FileName = fn,
+                            Arguments = args,
+                            UseShellExecute = false,
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true,
+                            CreateNoWindow = true,
+                            // StandardOutputEncoding = Encoding.GetEncoding(loc)
+                                }
+                    };
+                    process.Start();
+                    process.WaitForExit();
+                    if (process.StandardError.ReadToEnd() != "")
+                        return process.StandardError.ReadToEnd();
+                    return process.StandardOutput.ReadToEnd();
+                }
+                catch (System.Exception e)
+                {
+                    return e;
+                }
+            });
+
+        }
+
         public static async Task<NetworkInfo> GetNetworkInfo()
         {
             var ni = new NetworkInfo();

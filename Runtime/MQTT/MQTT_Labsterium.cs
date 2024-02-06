@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Labsterium;
 using UnityEngine;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
@@ -55,7 +54,8 @@ namespace Labsterium
         public string targetTopic = "TOSERVER";
         public string receiveON = "DEVICES";
         protected MqttClient client;
-        string clientId = "";
+        MQTTInfo mQTTInfo;
+        // string clientId = "";
         public bool logAllMessages;
         ConcurrentQueue<MQTTMessage> messageQueue;
         MQTTMessage message;
@@ -115,8 +115,8 @@ namespace Labsterium
                 client.MqttMsgPublishReceived += OnMessage;
                 client.MqttMsgDisconnected += OnDisconnect;
             }
-            if (clientId == "")
-                clientId = Guid.NewGuid().ToString();
+            if (mQTTInfo.clientid == "")
+                mQTTInfo.clientid = Guid.NewGuid().ToString();
             TryConnect();
         }
         async void TryConnect()
@@ -177,7 +177,7 @@ namespace Labsterium
             {
                 if (message.message == "IDENTIFICATION")
                 {
-                    Identify();
+                    Identify(false);
                     return;
                 }
                 var args = new List<string>(message.message.Split('_'));
@@ -225,15 +225,21 @@ namespace Labsterium
             {
                 try
                 {
-                    string ip = Helper.GetIP();
-                    int strength = await Helper.GetRSSIAsync();
+                    var ni = await Helper.GetNetworkInfo();
                     if (infos)
                     {
-                        string infoString = "{\"" + mecaName + "\":{\"IP\":\"" + ip + "\",\"RSSI\":\"" + (-strength).ToString() + "\"}}";
+                        string infoString = "{\"" + mecaName + "\":{\"IP\":\"" + ni.IP + "\",\"RSSI\":\"" + (ni.RSSI).ToString() + "\"}}";
                         SendMQTTMessageToTopic("TOSERVER", infoString);
                     }
                     else
-                        Publish("IDENTIFICATION", mecaName + "_" + ip + "_" + strength.ToString());
+                    {
+                        MecaInfo mi = new()
+                        {
+                            Network = ni,
+                            MQTT = mQTTInfo
+                        };
+                        Publish("IDENTIFICATION", JsonUtility.ToJson(mi).ToString());
+                    }
                 }
                 catch (Exception e)
                 {

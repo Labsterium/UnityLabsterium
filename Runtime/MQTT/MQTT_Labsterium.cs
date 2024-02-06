@@ -241,7 +241,7 @@ namespace Labsterium
                             }
                         };
                         string r = JsonUtility.ToJson(mi).ToString();
-                        SendMQTTMessageToTopic("IDENTIFICATION", r);
+                        SendMQTTMessageToTopic("TOSERVER", r);
                     }
                 }
                 catch (Exception e)

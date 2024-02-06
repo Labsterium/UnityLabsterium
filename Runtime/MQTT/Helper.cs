@@ -45,12 +45,12 @@ namespace Labsterium
                     {
                         StartInfo =
                                 {
-                            FileName = fn,
-                            Arguments = args,
-                            UseShellExecute = false,
-                            RedirectStandardOutput = true,
-                            RedirectStandardError = true,
-                            CreateNoWindow = true,
+                                    FileName = fn,
+                                    Arguments = args,
+                                    UseShellExecute = false,
+                                    RedirectStandardOutput = true,
+                                    RedirectStandardError = true,
+                                    CreateNoWindow = true,
                             // StandardOutputEncoding = Encoding.GetEncoding(loc)
                                 }
                     };
@@ -62,7 +62,7 @@ namespace Labsterium
                 }
                 catch (System.Exception e)
                 {
-                    return e;
+                    throw;
                 }
             });
 

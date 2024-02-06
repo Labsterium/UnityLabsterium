@@ -107,6 +107,10 @@ namespace Labsterium
         }
         protected void Initialize()
         {
+            mqttInfo ??= new MQTTInfo()
+            {
+                clientid = ""
+            };
             message ??= new MQTTMessage();
             messageQueue ??= new ConcurrentQueue<MQTTMessage>();
             if (client == null)

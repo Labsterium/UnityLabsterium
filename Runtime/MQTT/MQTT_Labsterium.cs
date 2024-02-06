@@ -126,7 +126,7 @@ namespace Labsterium
             Debug("Try connect");
             try
             {
-                client.Connect(clientId, null, null, false, MqttMsgConnect.QOS_LEVEL_AT_MOST_ONCE, true, "DISCONNECT", mecaName, true, 10);
+                client.Connect(mQTTInfo.clientid, null, null, false, MqttMsgConnect.QOS_LEVEL_AT_MOST_ONCE, true, "DISCONNECT", mecaName, true, 10);
             }
             catch (Exception e)
             {

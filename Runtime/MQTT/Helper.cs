@@ -11,7 +11,7 @@ namespace Labsterium
     {
         public NetworkInfo Network;
         public MQTTInfo MQTT;
-
+        public HardwareInfo Hardware_Infos;
     }
     [System.Serializable]
     public struct NetworkInfo
@@ -25,6 +25,11 @@ namespace Labsterium
     public struct MQTTInfo
     {
         public string clientid;
+    }
+    [System.Serializable]
+    public struct HardwareInfo
+    {
+        public string Type;
     }
     public class Helper
     {

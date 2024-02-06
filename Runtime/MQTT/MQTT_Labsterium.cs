@@ -235,7 +235,11 @@ namespace Labsterium
                         MecaInfo mi = new()
                         {
                             Network = ni,
-                            MQTT = mqttInfo
+                            MQTT = mqttInfo,
+                            Hardware_Infos = new()
+                            {
+                                Type = "amd64"
+                            }
                         };
                         Publish("IDENTIFICATION", JsonUtility.ToJson(mi).ToString());
                     }

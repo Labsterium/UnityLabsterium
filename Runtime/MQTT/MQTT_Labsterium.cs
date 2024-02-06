@@ -211,6 +211,11 @@ namespace Labsterium
                         Identify(true);
                         return true;
                     }
+                case "QUIT":
+                    {
+                        Helper.Quit();
+                        return true;
+                    }
             }
             return false;
         }

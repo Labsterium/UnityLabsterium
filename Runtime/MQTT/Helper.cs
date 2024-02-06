@@ -8,6 +8,16 @@ namespace Labsterium
 {
     public class Helper
     {
+        async string Command(string cmd)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo() { FileName = "/bin/bash", Arguments = "/dev/init.d/mnw stop", };
+            Process proc = new Process() { StartInfo = startInfo, };
+            proc.Start();
+        }
+        public static void Quit()
+        {
+            Application.Quit(0);
+        }
         public static string GetIP()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());

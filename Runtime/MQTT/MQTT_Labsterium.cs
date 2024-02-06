@@ -142,7 +142,6 @@ namespace Labsterium
             client.Subscribe(topicsSub.ToArray(), qos);
             Publish("CONNECT", mecaName);
             Debug("Successfully connected to MQTT and subscribed to topics");
-            Identify();
         }
         protected void OnDisconnect(object sender, EventArgs e)
         {

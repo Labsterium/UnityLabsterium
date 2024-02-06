@@ -7,14 +7,14 @@ using UnityEngine;
 namespace Labsterium
 {
     [System.Serializable]
-    struct MecaInfo
+    public struct MecaInfo
     {
         public NetworkInfo Network;
         public MQTTInfo MQTT;
 
     }
     [System.Serializable]
-    struct NetworkInfo
+    public struct NetworkInfo
     {
         public string IP;
         public string SSID;
@@ -22,7 +22,7 @@ namespace Labsterium
         public int RSSI;
     }
     [System.Serializable]
-    struct MQTTInfo
+    public struct MQTTInfo
     {
         public string clientid;
     }

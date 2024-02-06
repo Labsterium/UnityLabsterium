@@ -17,11 +17,6 @@ namespace Labsterium
         MQTT_DEBUG,
         BOTH_DEBUG
     }
-    public struct InfoClass
-    {
-        public string IP;
-        public string RSSI;
-    }
     public class MQTTMessage
     {
         public string topic;
@@ -61,7 +56,10 @@ namespace Labsterium
         MQTTMessage message;
         protected void Awake()
         {
-            mqttInfo = new();
+            mqttInfo = new()
+            {
+                clientid = ""
+            };
             debug = FindObjectOfType<Canvas>().gameObject.AddComponent<TMPro.TextMeshProUGUI>();
             debug.color = Color.red;
             instance = this;
@@ -107,10 +105,6 @@ namespace Labsterium
         }
         protected void Initialize()
         {
-            mqttInfo ??= new MQTTInfo()
-            {
-                clientid = ""
-            };
             message ??= new MQTTMessage();
             messageQueue ??= new ConcurrentQueue<MQTTMessage>();
             if (client == null)
@@ -261,7 +255,6 @@ namespace Labsterium
                 instance.debug.text = o.ToString();
             if (instance.debugLevel == DebugLevel.MQTT_DEBUG || instance.debugLevel == DebugLevel.BOTH_DEBUG)
                 instance.Publish(instance.mecaName + "/DEBUG", o.ToString());
-
         }
     }
 

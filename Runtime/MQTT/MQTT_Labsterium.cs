@@ -54,13 +54,14 @@ namespace Labsterium
         public string targetTopic = "TOSERVER";
         public string receiveON = "DEVICES";
         protected MqttClient client;
-        MQTTInfo mQTTInfo;
+        MQTTInfo mqttInfo;
         // string clientId = "";
         public bool logAllMessages;
         ConcurrentQueue<MQTTMessage> messageQueue;
         MQTTMessage message;
         protected void Awake()
         {
+            mqttInfo = new();
             debug = FindObjectOfType<Canvas>().gameObject.AddComponent<TMPro.TextMeshProUGUI>();
             debug.color = Color.red;
             instance = this;
@@ -115,8 +116,8 @@ namespace Labsterium
                 client.MqttMsgPublishReceived += OnMessage;
                 client.MqttMsgDisconnected += OnDisconnect;
             }
-            if (mQTTInfo.clientid == "")
-                mQTTInfo.clientid = Guid.NewGuid().ToString();
+            if (mqttInfo.clientid == "")
+                mqttInfo.clientid = Guid.NewGuid().ToString();
             TryConnect();
         }
         async void TryConnect()

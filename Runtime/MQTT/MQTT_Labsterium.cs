@@ -240,7 +240,8 @@ namespace Labsterium
                                 Type = "amd64"
                             }
                         };
-                        Publish("IDENTIFICATION", JsonUtility.ToJson(mi).ToString());
+                        string r = JsonUtility.ToJson(mi).ToString();
+                        SendMQTTMessageToTopic("IDENTIFICATION", r);
                     }
                 }
                 catch (Exception e)

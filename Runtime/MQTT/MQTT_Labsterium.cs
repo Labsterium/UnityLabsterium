@@ -99,7 +99,7 @@ namespace Labsterium
         }
         protected void OnDestroy()
         {
-            Debug("Destroying !");
+            DebugLab("Destroying !");
             if (client != null)
             {
                 Publish("DISCONNECT", mecaName);
@@ -127,14 +127,14 @@ namespace Labsterium
                 return;
             if (client.IsConnected)
                 return;
-            Debug("Try connect");
+            DebugLab("Try connect");
             try
             {
                 client.Connect(mqttInfo.clientid, null, null, false, MqttMsgConnect.QOS_LEVEL_AT_MOST_ONCE, true, "DISCONNECT", mecaName, true, 10);
             }
             catch (Exception e)
             {
-                Debug(e);
+                DebugLab(e);
                 await Task.Delay(5000);
                 TryConnect();
                 throw;
@@ -146,11 +146,11 @@ namespace Labsterium
             }
             client.Subscribe(topicsSub.ToArray(), qos);
             Publish("CONNECT", mecaName);
-            Debug("Successfully connected to MQTT and subscribed to topics");
+            DebugLab("Successfully connected to MQTT and subscribed to topics");
         }
         protected void OnDisconnect(object sender, EventArgs e)
         {
-            Debug("Disconnected !");
+            DebugLab("Disconnected !");
             TryConnect();
         }
         protected virtual void OnMessage(object sender, MqttMsgPublishEventArgs e)
@@ -160,7 +160,7 @@ namespace Labsterium
         protected void LogMsg(object sender, MqttMsgPublishEventArgs e)
         {
             if (logAllMessages)
-                Debug("Received: " + System.Text.Encoding.UTF8.GetString(e.Message));
+                DebugLab("Received: " + System.Text.Encoding.UTF8.GetString(e.Message));
         }
         public void Publish(string topic, string message)
         {
@@ -253,7 +253,7 @@ namespace Labsterium
                 }
                 catch (Exception e)
                 {
-                    Debug(e);
+                    DebugLab(e);
                 }
             }
             );

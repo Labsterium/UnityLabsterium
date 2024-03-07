@@ -62,7 +62,7 @@ namespace Labsterium
             {
                 clientid = ""
             };
-            var go = Instantiate(new GameObject, FindObjectOfType<Canvas>().transform);
+            var go = Instantiate(new GameObject(), FindObjectOfType<Canvas>().transform);
             debug = go.AddComponent<TMPro.TextMeshProUGUI>();
             debug.color = Color.red;
             instance = this;

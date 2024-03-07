@@ -35,7 +35,8 @@ namespace Labsterium
 
     public class MQTT_Labsterium : MonoBehaviour
     {
-        DebugLevel debugLevel;
+        public bool mqttEnabled = true;
+        public DebugLevel debugLevel;
         public static MQTT_Labsterium instance;
         TMPro.TextMeshProUGUI debug;
         public string ipAddr = "192.168.2.2";
@@ -54,19 +55,21 @@ namespace Labsterium
         public bool logAllMessages;
         ConcurrentQueue<MQTTMessage> messageQueue;
         MQTTMessage message;
+        public bool cursorVisible = false;
         protected void Awake()
         {
             mqttInfo = new()
             {
                 clientid = ""
             };
-            debug = FindObjectOfType<Canvas>().gameObject.AddComponent<TMPro.TextMeshProUGUI>();
+            var go = Instantiate(new GameObject, FindObjectOfType<Canvas>().transform);
+            debug = go.AddComponent<TMPro.TextMeshProUGUI>();
             debug.color = Color.red;
             instance = this;
             basemecaName = mecaName;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 #if !UNITY_EDITOR
-            Cursor.visible = false;
+            Cursor.visible = cursorVisible;
 #endif
             Application.runInBackground = true;
             if (multiMeca)
@@ -120,6 +123,8 @@ namespace Labsterium
         }
         async void TryConnect()
         {
+            if (!mqttEnabled)
+                return;
             if (client.IsConnected)
                 return;
             Debug("Try connect");
@@ -159,6 +164,8 @@ namespace Labsterium
         }
         public void Publish(string topic, string message)
         {
+            if (!mqttEnabled)
+                return;
             client.Publish(topic, System.Text.Encoding.ASCII.GetBytes(message));
         }
         public void SendMQTTMessage(string msg)
@@ -251,8 +258,11 @@ namespace Labsterium
             }
             );
         }
-        public static void Debug(object o)
+        public static void DebugLab(object o)
         {
+            UnityEngine.Debug(o);
+            if (!mqttEnabled)
+                return;
             if (instance.debugLevel == DebugLevel.NO_DEBUG)
                 return;
             if (instance.debugLevel == DebugLevel.SCREEN_DEBUG || instance.debugLevel == DebugLevel.BOTH_DEBUG)

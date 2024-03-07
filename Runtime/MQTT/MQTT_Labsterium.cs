@@ -64,6 +64,10 @@ namespace Labsterium
             };
             var go = Instantiate(new GameObject(), FindObjectOfType<Canvas>().transform);
             debug = go.AddComponent<TMPro.TextMeshProUGUI>();
+            var rt = debug.GetComponent<RectTransform>();
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.sizeDelta = Vector2.zero;
             debug.color = Color.red;
             instance = this;
             basemecaName = mecaName;
@@ -264,7 +268,7 @@ namespace Labsterium
             if (instance.debugLevel == DebugLevel.NO_DEBUG)
                 return;
             if (instance.debugLevel == DebugLevel.SCREEN_DEBUG || instance.debugLevel == DebugLevel.BOTH_DEBUG)
-                instance.debug.text = o.ToString();
+                instance.debug.text += o.ToString() + '\n';
             if (!instance.mqttEnabled)
                 return;
             if (instance.debugLevel == DebugLevel.MQTT_DEBUG || instance.debugLevel == DebugLevel.BOTH_DEBUG)

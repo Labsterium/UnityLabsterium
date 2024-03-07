@@ -261,12 +261,12 @@ namespace Labsterium
         public static void DebugLab(object o)
         {
             Debug.Log(o);
-            if (!instance.mqttEnabled)
-                return;
             if (instance.debugLevel == DebugLevel.NO_DEBUG)
                 return;
             if (instance.debugLevel == DebugLevel.SCREEN_DEBUG || instance.debugLevel == DebugLevel.BOTH_DEBUG)
                 instance.debug.text = o.ToString();
+            if (!instance.mqttEnabled)
+                return;
             if (instance.debugLevel == DebugLevel.MQTT_DEBUG || instance.debugLevel == DebugLevel.BOTH_DEBUG)
                 instance.Publish(instance.mecaName + "/DEBUG", o.ToString());
         }

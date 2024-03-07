@@ -260,7 +260,7 @@ namespace Labsterium
         }
         public static void DebugLab(object o)
         {
-            UnityEngine.Debug(o);
+            Debug.Log(o);
             if (!mqttEnabled)
                 return;
             if (instance.debugLevel == DebugLevel.NO_DEBUG)

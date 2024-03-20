@@ -69,6 +69,7 @@ namespace Labsterium
             rt.anchorMax = Vector2.one;
             rt.sizeDelta = Vector2.zero;
             debug.color = Color.red;
+            debug.verticalAlignment = TMPro.VerticalAlignmentOptions.Bottom
             debug.raycastTarget = false;
             instance = this;
             basemecaName = mecaName;

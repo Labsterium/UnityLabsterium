@@ -107,5 +107,9 @@ catch (System.Exception e)
         {
             Application.Quit(0);
         }
+        public static void Reboot()
+        {
+            Application.Quit(-1);
+        }
     }
 }

@@ -222,6 +222,11 @@ namespace Labsterium
                         Identify(true);
                         return true;
                     }
+                case "REBOOT":
+                    {
+                        Helper.Reboot();
+                        return true;
+                    }
                 case "QUIT":
                     {
                         Helper.Quit();

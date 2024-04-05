@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
+using UnityEngine.Localization.Settings;
 namespace Labsterium
 {
     public enum DebugLevel
@@ -239,6 +240,7 @@ namespace Labsterium
                 case "LANG":
                     {
                         SwitchLocale(args[0]);
+                        return true;
                     }
                 case "QUIT":
                     {
@@ -287,7 +289,7 @@ namespace Labsterium
             debug.text += s + '\n';
             debugLines++;
             if (debugLines > maxDebugLines)
-                instance.debug.text = instance.debug.text[instance.debug.text.IndexOf('\n') + 1..];
+                instance.debug.text = instance.debug.text[(instance.debug.text.IndexOf('\n') + 1)..];
         }
         public static void DebugLab(object o)
         {

@@ -227,6 +227,10 @@ namespace Labsterium
                         Helper.Reboot();
                         return true;
                     }
+                case "LANG":
+                    {
+                        SwitchLocale(args[0]);
+                    }
                 case "QUIT":
                     {
                         Helper.Quit();
@@ -280,6 +284,18 @@ namespace Labsterium
                 return;
             if (instance.debugLevel == DebugLevel.MQTT_DEBUG || instance.debugLevel == DebugLevel.BOTH_DEBUG)
                 instance.Publish(instance.mecaName + "/DEBUG", o.ToString());
+        }
+        public void SwitchLocale(string localeCode)
+        {
+            string localeCodeLower = localeCode.ToLower();
+            var newLocale = LocalizationSettings.AvailableLocales.Locales.Find((e) => e.Identifier.Code == localeCodeLower);
+            if (newLocale == null)
+            {
+                DebugLab("Locale " + localeCodeLower + " not found");
+                return;
+            }
+            LocalizationSettings.SelectedLocale = newLocale;
+            DebugLab("Switched locale to " + localeCodeLower);
         }
     }
 

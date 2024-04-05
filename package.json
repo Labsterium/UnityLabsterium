@@ -13,6 +13,7 @@
     "url": "https://www.labsterium.com/"
   },
   "dependencies": {
-    "com.unity.textmeshpro": "3.0.0"
+    "com.unity.textmeshpro": "3.0.0",
+    "com.unity.localization": "1.4.0"
   }
 }

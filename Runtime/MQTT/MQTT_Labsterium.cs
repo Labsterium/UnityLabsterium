@@ -39,6 +39,8 @@ namespace Labsterium
         public DebugLevel debugLevel;
         public static MQTT_Labsterium instance;
         TMPro.TextMeshProUGUI debug;
+        int debugLines = 0;
+        public int maxDebugLines = 40;
         public string ipAddr = "192.168.2.2";
         public int port = MqttSettings.MQTT_BROKER_DEFAULT_PORT;
         public List<string> topicsSub = new() { "DEVICES" };
@@ -62,12 +64,19 @@ namespace Labsterium
             {
                 clientid = ""
             };
-            var go = Instantiate(new GameObject(), FindObjectOfType<Canvas>().transform);
+
+            var go = new GameObject()
+            {
+                name = "LabsteriumDebugger"
+            };
+            go.transform.parent = FindObjectOfType<Canvas>().transform;
             debug = go.AddComponent<TMPro.TextMeshProUGUI>();
             var rt = debug.GetComponent<RectTransform>();
+            rt.localPosition = Vector2.zero;
             rt.anchorMin = Vector2.zero;
             rt.anchorMax = Vector2.one;
             rt.sizeDelta = Vector2.zero;
+
             debug.color = Color.red;
             debug.verticalAlignment = TMPro.VerticalAlignmentOptions.Bottom;
             debug.raycastTarget = false;
@@ -273,13 +282,22 @@ namespace Labsterium
             }
             );
         }
+        void AddDebugOnScreen(string s)
+        {
+            debug.text += s + '\n';
+            debugLines++;
+            if (debugLines > maxDebugLines)
+                instance.debug.text = instance.debug.text[instance.debug.text.IndexOf('\n') + 1..];
+        }
         public static void DebugLab(object o)
         {
             Debug.Log(o);
             if (instance.debugLevel == DebugLevel.NO_DEBUG)
                 return;
             if (instance.debugLevel == DebugLevel.SCREEN_DEBUG || instance.debugLevel == DebugLevel.BOTH_DEBUG)
-                instance.debug.text += o.ToString() + '\n';
+            {
+                instance.AddDebugOnScreen(o.ToString());
+            }
             if (!instance.mqttEnabled)
                 return;
             if (instance.debugLevel == DebugLevel.MQTT_DEBUG || instance.debugLevel == DebugLevel.BOTH_DEBUG)

@@ -237,7 +237,7 @@ namespace Labsterium
                         Helper.Reboot();
                         return true;
                     }
-                case "LANG":
+                case "SETLANG":
                     {
                         SwitchLocale(args[0]);
                         return true;

@@ -161,8 +161,13 @@ namespace Labsterium
                 qos[i] = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE;
             }
             client.Subscribe(topicsSub.ToArray(), qos);
-            Publish("CONNECT", mecaName);
             DebugLab("Successfully connected to MQTT and subscribed to topics");
+            Connected();
+        }
+        protected virtual void Connected()
+        {
+            Identify();
+            Publish("CONNECT", mecaName);
         }
         protected void OnDisconnect(object sender, EventArgs e)
         {

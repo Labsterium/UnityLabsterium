@@ -166,7 +166,7 @@ namespace Labsterium
         }
         protected virtual void Connected()
         {
-            Identify();
+            Identify(true);
             Publish("CONNECT", mecaName);
         }
         protected void OnDisconnect(object sender, EventArgs e)

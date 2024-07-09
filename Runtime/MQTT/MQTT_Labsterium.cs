@@ -166,7 +166,7 @@ namespace Labsterium
         }
         protected virtual void Connected()
         {
-            Identify(true);
+            IdentifyShort();
             Publish("CONNECT", mecaName);
         }
         protected void OnDisconnect(object sender, EventArgs e)
@@ -281,6 +281,22 @@ namespace Labsterium
                         string r = JsonUtility.ToJson(mi).ToString();
                         SendMQTTMessageToTopic("TOSERVER", r);
                     }
+                }
+                catch (Exception e)
+                {
+                    DebugLab(e);
+                }
+            }
+            );
+        }
+        public void IdentifyShort()
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var ni = await Helper.GetNetworkInfo();
+                    SendMQTTMessageToTopic("IDENTIFICATION", mecaName + '_' + ni.IP + '_' + ni.RSSI);
                 }
                 catch (Exception e)
                 {

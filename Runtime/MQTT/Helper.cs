@@ -51,7 +51,7 @@ namespace Labsterium
                                     RedirectStandardOutput = true,
                                     RedirectStandardError = true,
                                     CreateNoWindow = true,
-                            // StandardOutputEncoding = Encoding.GetEncoding(loc)
+                                    // StandardOutputEncoding = Encoding.GetEncoding(loc)
                                 }
                     };
                     process.Start();
@@ -72,8 +72,40 @@ namespace Labsterium
         {
             var ni = new NetworkInfo();
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
-        //TODO
-        return ni;
+            //TODO
+            string resultWin = await Helper.Command("netsh", "wlan show interfaces");
+            var lines = resultWin.Split('\n');
+            foreach (var line in lines)
+            {
+                var l = line.TrimStart();
+
+                if (l.Contains("Signal"))
+                {
+                    var sig = int.Parse(l.Split(':')[1].Split('%')[0].Trim());
+                    ni.RSSI = Mathf.RoundToInt(90 - sig * .6f);
+                }
+                if (l.Contains("SSID") && !l.Contains("BSSID"))
+                    ni.SSID = l.Split(':')[1];
+                if (l.Contains("Canal"))
+                {
+                    var chan = int.Parse(l.Split(':')[1].Trim());
+                    ni.Channel = chan;
+                }
+
+            }
+            // Debug.Log("resultWin" + resultWin);
+            resultWin = await Helper.Command("ipconfig", "");
+            var idx = resultWin.IndexOf("IPv4");
+            if (idx > 0)
+            {
+                var idx1 = resultWin.IndexOf(':', idx) + 1;
+                var idx2 = resultWin.IndexOf('\n', idx);
+                var substrIP = resultWin[idx1..idx2];
+                Debug.Log("substrIP" + substrIP);
+                ni.IP = substrIP;
+            }
+            Debug.Log("resultWin" + resultWin);
+            return ni;
 #elif UNITY_STANDALONE_LINUX
 try
 {

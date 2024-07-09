@@ -100,7 +100,7 @@ namespace Labsterium
             {
                 var idx1 = resultWin.IndexOf(':', idx) + 1;
                 var idx2 = resultWin.IndexOf('\n', idx);
-                var substrIP = resultWin[idx1..idx2];
+                var substrIP = resultWin[idx1..idx2].Trim();
                 Debug.Log("substrIP" + substrIP);
                 ni.IP = substrIP;
             }

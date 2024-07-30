@@ -296,7 +296,7 @@ namespace Labsterium
                 try
                 {
                     var ni = await Helper.GetNetworkInfo();
-                    SendMQTTMessageToTopic("IDENTIFICATION", mecaName + '_' + ni.IP + '_' + ni.RSSI);
+                    SendMQTTMessageToTopic("IDENTIFICATION", mecaName + '_' + ni.IP + '_' + Mathf.Abs(ni.RSSI));
                 }
                 catch (Exception e)
                 {

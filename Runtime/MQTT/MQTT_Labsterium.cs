@@ -90,7 +90,7 @@ namespace Labsterium
             Application.runInBackground = true;
             if (multiMeca)
             {
-                nMeca = File.ReadAllText("n.cfg");
+                nMeca = File.ReadAllText("n.cfg").Trim();
                 mecaName += nMeca;
             }
             Initialize();

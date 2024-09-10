@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Labsterium;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -24,16 +25,24 @@ public class RFID : MonoBehaviour
         };
         fsw.Changed += new FileSystemEventHandler(OnChanged);
         fsw.EnableRaisingEvents = true;
-        System.Diagnostics.Process p = new()
+        try
         {
-            StartInfo = new System.Diagnostics.ProcessStartInfo("python3", "RFID.py")
+            System.Diagnostics.Process p = new()
             {
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            }
-        };
-        p.Start();
+                StartInfo = new System.Diagnostics.ProcessStartInfo("python3", "RFID.py")
+                {
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+            p.Start();
+
+        }
+        catch (System.Exception e)
+        {
+            MQTT_Labsterium.instance.SendMQTTMessageToTopic("DEBUG", e.ToString());
+        }
     }
     private void OnChanged(object sender, FileSystemEventArgs e)
     {

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -62,6 +63,7 @@ namespace Labsterium
                 }
                 catch (System.Exception e)
                 {
+                    MQTT_Labsterium.instance.SendMQTTMessageToTopic("ERROR", e.ToString());
                     throw;
                 }
             });
@@ -142,6 +144,10 @@ catch (System.Exception e)
         public static void Reboot()
         {
             Application.Quit(-1);
+        }
+        public static string GetFilePath()
+        {
+            return Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + "Files" + Path.DirectorySeparatorChar;
         }
     }
 }

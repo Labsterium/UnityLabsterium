@@ -65,9 +65,7 @@ public class VideoPlayerLabsterium : MonoBehaviour
                 }
             case "STOP":
                 {
-                    imgObj.gameObject.SetActive(false);
-                    vp.Stop();
-                    currentVideoInfo = null;
+                    Stop();
                     return true;
                 }
             case "SHOW":
@@ -92,6 +90,12 @@ public class VideoPlayerLabsterium : MonoBehaviour
 
         }
         return false;
+    }
+    public void Stop()
+    {
+        imgObj.gameObject.SetActive(false);
+        vp.Stop();
+        currentVideoInfo = null;
     }
     void Connected()
     {
@@ -199,6 +203,8 @@ public class VideoPlayerLabsterium : MonoBehaviour
             {
                 MQTT_Labsterium.instance.SendMQTTMessage("VIDEO_" + currentVideoInfo.nameVideo + "_FINISHED");
                 currentVideoInfo = null;
+                vp.Stop();
+
             }
         }
     }

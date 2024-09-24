@@ -100,8 +100,20 @@ public class VideoPlayerLabsterium : MonoBehaviour
 
     private bool Show(List<string> args)
     {
+        if (args.Count == 0)
+        {
+            MQTT_Labsterium.instance.SendMQTTMessage("ERROR_NO_FILE");
+            return false;
+        }
+        return Show(args[0]);
+
+
+    }
+
+    internal bool Show(string file)
+    {
         imgObj.gameObject.SetActive(true);
-        var imgPath = path + args[0];
+        var imgPath = path + file;
         if (!File.Exists(imgPath))
         {
             MQTT_Labsterium.instance.SendMQTTMessage("ERROR_FILE_NOT_FOUND");
@@ -112,49 +124,55 @@ public class VideoPlayerLabsterium : MonoBehaviour
         texture.LoadImage(bytes);
         imgObj.texture = texture;
         return true;
-
     }
     private bool Play(List<string> args, bool loop = false, bool log = true, bool notification = false)
     {
-
-        imgObj.gameObject.SetActive(false);
         if (args.Count == 0)
         {
-            if (vp.url != "")
+            if (currentVideoInfo != null)
+            {
+                imgObj.gameObject.SetActive(false);
                 vp.Play();
+                return true;
+            }
             else
             {
                 MQTT_Labsterium.instance.SendMQTTMessage("ERROR_NO_FILE_PLAYING");
                 return false;
             }
         }
-        else
+        return Play(args[0], loop, log, notification);
+    }
+    internal bool Play(string file, bool loop = false, bool log = true, bool notification = false)
+    {
+
+        imgObj.gameObject.SetActive(false);
+
+        bool isNotif = currentVideoInfo != null && notification;
+        if (isNotif)
         {
-            bool isNotif = currentVideoInfo != null && notification;
-            if (isNotif)
-            {
-                currentVideoInfo.time = vp.time;
-            }
-            var nvi = new VideoInfo()
-            {
-                time = 0,
-                log = log,
-                loop = loop,
-                n = 0,
-                nameVideo = args[0],
-                volume = 1f,
-                returnTo = isNotif ? currentVideoInfo : null,
-            };
-            if (!File.Exists(path + nvi.nameVideo))
-            {
-                MQTT_Labsterium.instance.SendMQTTMessage("ERROR_FILE_NOT_FOUND");
-                return false;
-            }
-            currentVideoInfo = nvi;
-            vp.url = path + nvi.nameVideo;
-            vp.isLooping = loop;
-            vp.Play();
+            currentVideoInfo.time = vp.time;
         }
+        var nvi = new VideoInfo()
+        {
+            time = 0,
+            log = log,
+            loop = loop,
+            n = 0,
+            nameVideo = file,
+            volume = 1f,
+            returnTo = isNotif ? currentVideoInfo : null,
+        };
+        if (!File.Exists(path + nvi.nameVideo))
+        {
+            MQTT_Labsterium.instance.SendMQTTMessage("ERROR_FILE_NOT_FOUND");
+            return false;
+        }
+        currentVideoInfo = nvi;
+        vp.url = path + nvi.nameVideo;
+        vp.isLooping = loop;
+        vp.Play();
+
         return true;
     }
     void EndReached(VideoPlayer vp)

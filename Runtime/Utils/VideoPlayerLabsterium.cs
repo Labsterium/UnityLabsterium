@@ -110,7 +110,7 @@ public class VideoPlayerLabsterium : MonoBehaviour
 
     }
 
-    internal bool Show(string file)
+    public bool Show(string file)
     {
         imgObj.gameObject.SetActive(true);
         var imgPath = path + file;
@@ -143,7 +143,7 @@ public class VideoPlayerLabsterium : MonoBehaviour
         }
         return Play(args[0], loop, log, notification);
     }
-    internal bool Play(string file, bool loop = false, bool log = true, bool notification = false)
+    public bool Play(string file, bool loop = false, bool log = true, bool notification = false)
     {
 
         imgObj.gameObject.SetActive(false);

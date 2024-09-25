@@ -13,6 +13,7 @@ public class RFID : MonoBehaviour
     FileSystemWatcher fsw;
     Queue<string> messages;
     public UnityEvent<string> rfidEvent;
+    string previous;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,8 +31,10 @@ public class RFID : MonoBehaviour
     private void OnChanged(object sender, FileSystemEventArgs e)
     {
         var s = File.ReadAllText(e.FullPath);
+        if (s == previous)
+            return;
+        previous = s;
         messages.Enqueue(s);
-        Debug.Log(s);
     }
     void Update()
     {

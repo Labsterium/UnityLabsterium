@@ -195,6 +195,7 @@ public class VideoPlayerLabsterium : MonoBehaviour
                 MQTT_Labsterium.instance.SendMQTTMessage("VIDEO_" + currentVideoInfo.nameVideo + "_FINISHED");
                 currentVideoInfo = currentVideoInfo.returnTo;
                 vp.url = path + currentVideoInfo.nameVideo;
+                vp.isLooping = currentVideoInfo.loop;
                 vp.SetDirectAudioVolume(0, currentVideoInfo.volume);
                 vp.Play();
                 ReturnToTime(currentVideoInfo.time);

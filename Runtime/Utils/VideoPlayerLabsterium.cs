@@ -26,7 +26,7 @@ public class VideoPlayerLabsterium : MonoBehaviour
     VideoConverter converter;
     public RawImage imgObj;
     public VideoPlayer vp;
-    VideoInfo currentVideoInfo;
+    public VideoInfo currentVideoInfo;
     string path;
     public UnityEvent<string> videoEnd;
     void Start()
@@ -181,6 +181,7 @@ public class VideoPlayerLabsterium : MonoBehaviour
     }
     void EndReached(VideoPlayer vp)
     {
+        videoEnd.Invoke(currentVideoInfo.nameVideo);
         if (currentVideoInfo.loop)
         {
             currentVideoInfo.n++;
